@@ -1,4 +1,3 @@
-import streamlit as st
 import plotly.express as px
 import pandas as pd
 import numpy as np
@@ -20,6 +19,9 @@ task = st.multiselect('Which task would you like to see?', task_options, ['Task 
 
 # Filter the DataFrame based on the selected tasks
 df = df[df['Task'].isin(task)]
+
+# Sort the DataFrame by 'Priority' in descending order
+df = df.sort_values('Priority', ascending=False)
 
 # Create an animated horizontal bar chart
 fig = px.bar(df, y="Task", x="Count", color="Task", orientation='h', animation_frame="Priority", animation_group="Task")
