@@ -18,16 +18,17 @@ st.write(df)
 task_options = df['Task'].unique().tolist()
 task = st.multiselect('Which task would you like to see?', task_options, ['Task 1', 'Task 2'])
 
-# Filter the DataFrame based on the selected tasks and remove negative values
-df = df[(df['Task'].isin(task)) & (df['Count'] >= 0)]
+# Filter the DataFrame based on the selected tasks
+df = df[df['Task'].isin(task)]
 
 # Create an animated horizontal bar chart
 fig = px.bar(df, y="Task", x="Count", color="Task", orientation='h', animation_frame="Priority", animation_group="Task")
 
-# Update the layout of the plot to include a 'Play' button
+# Update the layout of the plot to include a 'Play' button and set the range of x-axis
 fig.update_layout(
     width=800,
     showlegend=True,
+    xaxis_range=[0,1],  # Set the range of x-axis to start from 0
     updatemenus=[{
         "type": "buttons",
         "buttons": [{
