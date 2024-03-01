@@ -1,36 +1,24 @@
-import matplotlib.pyplot as plt
-import numpy as np
 import streamlit as st
-import time
+import plotly.express as px
+import pandas as pd
 
-# Your actual data
+# Sample data
 data = {
+    'Date': pd.date_range(start='2018-01-01', periods=5, freq='Y').year,
     'Facebook': [2.2e9, 2.3e9, 2.4e9, 2.5e9, 2.6e9],
     'YouTube': [1.6e9, 1.7e9, 1.8e9, 1.9e9, 2.0e9],
     'WhatsApp': [1.5e9, 1.55e9, 1.6e9, 1.65e9, 1.7e9],
     # Add other platforms...
 }
 
-fig, ax = plt.subplots()
+df = pd.DataFrame(data)
+df_long = df.melt(id_vars=['Date'], var_name='Platform', value_name='Users')
 
-max_x = len(data['Facebook'])  # Number of data points
-max_y = max(max(data.values()))  # Maximum y-value in your data
+# Create an animated line chart
+fig = px.line(df_long, x='Date', y='Users', color='Platform', animation_frame='Date', animation_group='Platform', range_y=[df_long['Users'].min(), df_long['Users'].max()])
 
-x = np.arange(0, max_x)
-ax.set_ylim(0, max_y)
-line, = ax.plot(x, data['Facebook'])  # Start with Facebook data
-the_plot = st.pyplot(plt)
+# Update layout
+fig.update_layout(showlegend=True, updatemenus=[{"type": "buttons", "buttons": [{"label": "Play", "method": "animate", "args": [None]}]}])
 
-def init():  # give a clean slate to start
-    line.set_ydata([np.nan] * len(x))
-
-def animate(i):  # update the y values (every 1000ms)
-    platform = list(data.keys())[i % len(data)]  # Cycle through platforms
-    line.set_ydata(data[platform])  # Update y-values with platform data
-    ax.set_title(platform)  # Update title with current platform
-    the_plot.pyplot(plt)
-
-init()
-for i in range(100):
-    animate(i)
-    time.sleep(0.1)
+# Display the plot in Streamlit
+st.plotly_chart(fig, use_container_width=True)
