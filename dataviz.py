@@ -2,31 +2,29 @@ import streamlit as st
 import plotly.express as px
 import pandas as pd
 
-# Load the COVID-19 dataset
-covid = pd.read_csv('https://raw.githubusercontent.com/shinokada/covid-19-stats/master/data/daily-new-confirmed-cases-of-covid-19-tests-per-case.csv')
-covid.columns = ['Country', 'Code', 'Date', 'Confirmed', 'Days since confirmed']
-covid['Date'] = pd.to_datetime(covid['Date']).dt.strftime('%Y-%m-%d')
+# Create a custom dataset
+data = {
+    'Task': ['Task 1']*10 + ['Task 2']*10,
+    'Priority': list(range(1, 11)) + list(range(1, 11)),
+    'Count': list(range(10, 110, 10)) + list(range(10, 110, 10))
+}
+df = pd.DataFrame(data)
 
-# Display the COVID-19 dataset in Streamlit
-st.write(covid)
+# Display the dataset in Streamlit
+st.write(df)
 
-# Create select boxes in Streamlit for date and country selection
-date_options = covid['Date'].unique().tolist()
-date = st.selectbox('Which date would you like to see?', date_options, 100)
-country_options = covid['Country'].unique().tolist()
-country = st.multiselect('Which country would you like to see?', country_options, ['Brazil'])
+# Create select boxes in Streamlit for task selection
+task_options = df['Task'].unique().tolist()
+task = st.multiselect('Which task would you like to see?', task_options, ['Task 1', 'Task 2'])
 
-# Convert 'Date' column to datetime
-covid['Date'] = pd.to_datetime(covid['Date'])
-
-# Filter the COVID-19 dataset based on the selected countries
-covid = covid[covid['Country'].isin(country)]
+# Filter the DataFrame based on the selected tasks
+df = df[df['Task'].isin(task)]
 
 # Create an animated horizontal bar chart
-fig2 = px.bar(covid, y="Country", x="Confirmed", color="Country", orientation='h', range_x=[0,35000], animation_frame=covid["Date"].dt.strftime('%Y-%m-%d'), animation_group="Country")
+fig = px.bar(df, y="Task", x="Count", color="Task", orientation='h', animation_frame="Priority", animation_group="Task")
 
 # Update the layout of the plot to include a 'Play' button
-fig2.update_layout(
+fig.update_layout(
     width=800,
     showlegend=True,
     updatemenus=[{
@@ -40,4 +38,4 @@ fig2.update_layout(
 )
 
 # Display the plot in Streamlit
-st.write(fig2)
+st.write(fig)
