@@ -1,12 +1,12 @@
+import streamlit as st
 import plotly.express as px
 import pandas as pd
 import numpy as np
-import streamlit as st
 
 # Create a custom dataset
 data = {
     'Task': ['Task 1']*10 + ['Task 2']*10,
-    'Priority': list(range(1, 11)) + list(range(1, 11)),
+    'Priority': list(range(1, 11)) + list(range(1, 112)),
     'Count': list(np.linspace(0, 1, 10)) + list(np.linspace(0, 1, 10))  # Adjust the count values here
 }
 df = pd.DataFrame(data)
@@ -20,9 +20,6 @@ task = st.multiselect('Which task would you like to see?', task_options, ['Task 
 
 # Filter the DataFrame based on the selected tasks
 df = df[df['Task'].isin(task)]
-
-# Sort the DataFrame by 'Priority' in descending order
-df = df.sort_values('Priority', ascending=False)
 
 # Create an animated horizontal bar chart
 fig = px.bar(df, y="Task", x="Count", color="Task", orientation='h', animation_frame="Priority", animation_group="Task")
