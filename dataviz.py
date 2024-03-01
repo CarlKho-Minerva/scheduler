@@ -14,11 +14,8 @@ data = {
 df = pd.DataFrame(data)
 df_long = df.melt(id_vars=['Date'], var_name='Platform', value_name='Users')
 
-# Create an animated line chart
-fig = px.line(df_long, x='Date', y='Users', color='Platform', animation_frame='Date', range_y=[df_long['Users'].min(), df_long['Users'].max()])
-
-# Update layout
-fig.update_layout(showlegend=True, updatemenus=[{"type": "buttons", "buttons": [{"label": "Play", "method": "animate", "args": [None]}]}])
+# Create a line chart
+fig = px.line(df_long, x='Date', y='Users', color='Platform')
 
 # Display the plot in Streamlit
 st.plotly_chart(fig, use_container_width=True)
