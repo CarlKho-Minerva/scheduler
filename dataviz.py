@@ -18,8 +18,8 @@ st.write(df)
 task_options = df['Task'].unique().tolist()
 task = st.multiselect('Which task would you like to see?', task_options, ['Task 1', 'Task 2'])
 
-# Filter the DataFrame based on the selected tasks
-df = df[df['Task'].isin(task)]
+# Filter the DataFrame based on the selected tasks and remove negative values
+df = df[(df['Task'].isin(task)) & (df['Count'] >= 0)]
 
 # Create an animated horizontal bar chart
 fig = px.bar(df, y="Task", x="Count", color="Task", orientation='h', animation_frame="Priority", animation_group="Task")
