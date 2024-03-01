@@ -5,9 +5,9 @@ import numpy as np
 
 # Create a custom dataset
 data = {
-    'Task': ['Task 1']*10 + ['Task 2']*10,
-    'Priority': list(range(1, 11)) + list(range(1, 112)),
-    'Count': list(np.linspace(0, 1, 10)) + list(np.linspace(0, 1, 10))  # Adjust the count values here
+    'Task': ['Task 1']*20 + ['Task 2']*10,
+    'Priority': list(range(1, 21)) + list(range(1, 11)),
+    'Count': list(np.linspace(0, 1, 20)) + list(np.linspace(0, 1, 10))  # Adjust the count values here
 }
 df = pd.DataFrame(data)
 
