@@ -6,7 +6,7 @@ import pandas as pd
 data = {
     'Task': ['Task 1']*10 + ['Task 2']*10,
     'Priority': list(range(1, 11)) + list(range(1, 11)),
-    'Count': list(range(10, 110, 10)) + list(range(10, 110, 10))
+    'Count': list(range(0, 100, 10)) + list(range(0, 200, 20))  # Adjust the count values here
 }
 df = pd.DataFrame(data)
 
