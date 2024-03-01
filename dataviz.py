@@ -4,7 +4,7 @@ import pandas as pd
 
 # Sample data
 data = {
-    'Date': pd.date_range(start='2018-04-01', periods=5, freq='Y').year,
+    'Date': pd.date_range(start='2018-01-01', periods=5, freq='Y').strftime('%Y-%m-%d'),
     'Facebook': [2.2e9, 2.3e9, 2.4e9, 2.5e9, 2.6e9],
     'YouTube': [1.6e9, 1.7e9, 1.8e9, 1.9e9, 2.0e9],
     'WhatsApp': [1.5e9, 1.55e9, 1.6e9, 1.65e9, 1.7e9],
