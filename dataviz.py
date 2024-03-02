@@ -28,7 +28,7 @@ fig = px.bar(df, y="Task", x="Count", color="Task", orientation='h', animation_f
 fig.update_layout(
     width=800,
     showlegend=False,
-    xaxis_range=[0,1],  # Set the range of x-axis to start from 0
+    # xaxis_range=[0,1],  # Set the range of x-axis to start from 0
     updatemenus=[{
         "type": "buttons",
         "buttons": [{
