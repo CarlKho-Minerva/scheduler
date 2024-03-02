@@ -5,9 +5,9 @@ import numpy as np
 
 # Create a custom dataset with 8 tasks
 data = {
-    'Task': ['Task {}'.format(i+1) for i in range(8)],
-    'Priority': list(range(1, 9)),
-    'Count': list(np.linspace(0, 1, 8))
+    'Task': sum([['Task {}'.format(i+1)]*((i+1)*10) for i in range(8)], []),
+    'Priority': sum([list(range(1, (i+1)*10 + 1)) for i in range(8)], []),
+    'Count': sum([list(np.linspace(0, 1, (i+1)*10)) for i in range(8)], [])
 }
 df = pd.DataFrame(data)
 
@@ -23,6 +23,21 @@ df = df[df['Task'].isin(task)]
 
 # Create an animated horizontal bar chart
 fig = px.bar(df, y="Task", x="Count", color="Task", orientation='h', animation_frame="Priority", animation_group="Task")
+
+# Update the layout of the plot to include a 'Play' button and set the range of x-axis
+fig.update_layout(
+    width=800,
+    showlegend=True,
+    xaxis_range=[0,1],  # Set the range of x-axis to start from 0
+    updatemenus=[{
+        "type": "buttons",
+        "buttons": [{
+            "label": "Play",
+            "method": "animate",
+            "args": [None, {"frame": {"duration": 500, "redraw": True}, "fromcurrent": True, "transition": {"duration": 300, "easing": "quadratic-in-out"}}]
+        }]
+    }]
+)
 
 # Display the plot in Streamlit
 st.write(fig)
