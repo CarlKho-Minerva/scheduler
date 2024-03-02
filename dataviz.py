@@ -27,7 +27,7 @@ fig = px.bar(df, y="Task", x="Count", color="Task", orientation='h', animation_f
 # Update the layout of the plot to include a 'Play' button and set the range of x-axis
 fig.update_layout(
     width=800,
-    showlegend=True,
+    # showlegend=True,
     xaxis_range=[0,1],  # Set the range of x-axis to start from 0
     updatemenus=[{
         "type": "buttons",
