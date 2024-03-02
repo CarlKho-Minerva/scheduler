@@ -3,7 +3,10 @@ import plotly.express as px
 import pandas as pd
 import numpy as np
 
-# Create a custom dataset with 8 tasks
+# Assuming the 'Priority' column represents the inverse of task urgency (lower is more urgent)
+# and 'Count' somehow represents task progress or another metric for visualization.
+
+# Create a custom dataset with 8 tasks, simulating a scheduling scenario
 data = {
     'Task': sum([['Task {}'.format(i+1)]*((i+1)*10) for i in range(8)], []),
     'Priority': sum([list(range(1, (i+1)*10 + 1)) for i in range(8)], []),
@@ -16,19 +19,22 @@ st.write(df)
 
 # Create select boxes in Streamlit for task selection
 task_options = df['Task'].unique().tolist()
-task = st.multiselect('Which task would you like to see?', task_options, ['Task {}'.format(i+1) for i in range(8)])
+selected_tasks = st.multiselect('Which task would you like to see?', task_options, ['Task {}'.format(i+1) for i in range(8)])
 
 # Filter the DataFrame based on the selected tasks
-df = df[df['Task'].isin(task)]
+filtered_df = df[df['Task'].isin(selected_tasks)]
 
 # Create an animated horizontal bar chart
-fig = px.bar(df, y="Task", x="Count", color="Task", orientation='h', animation_frame="Priority", animation_group="Task")
+# This animation will now represent the 'execution' of tasks based on their priority
+fig = px.bar(filtered_df, y="Task", x="Count", color="Task", orientation='h',
+             animation_frame="Priority", animation_group="Task")
 
-# Update the layout of the plot to include a 'Play' button and set the range of x-axis
+# Update the layout of the plot to improve visualization
 fig.update_layout(
     width=800,
+    height=600,
     showlegend=False,
-    xaxis_range=[0,1],  # Set the range of x-axis to start from 0
+    xaxis_range=[0,1],  # Ensure the x-axis starts at 0
     updatemenus=[{
         "type": "buttons",
         "buttons": [{
@@ -38,8 +44,6 @@ fig.update_layout(
         }]
     }]
 )
-
-# https://www.youtube.com/watch?v=VZ_tS4F6P2A&t=445s
 
 # Display the plot in Streamlit
 st.write(fig)
